@@ -13,9 +13,41 @@ function registerCommands(context){
 			vscode.window.showInformationMessage(prms+ " is the url supplied");
 		}
 	);
+
+	let showWebView = vscode.commands.registerCommand(
+		'vscopper.showWebView', async function(){
+			let link = await vscode.window.showInputBox({placeHolder: 'Enter URL'});
+
+			const panel = vscode.window.createWebviewPanel(
+				'wannabe_sidebar',
+				'heres the webview',
+				vscode.ViewColumn.One,
+				{}
+			);
+
+			panel.webview.html = getWebViewContent(link);
+		
+		}
+	);
+
+	context.subscriptions.push(showWebView);
 	context.subscriptions.push(helloworld);
 	context.subscriptions.push(codeforcesCnt);
 }
+
+function getWebViewContent(link) {
+	return `<!DOCTYPE html>
+  <html lang="en">
+  <head>
+	  <meta charset="UTF-8">
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <title>heres the webview</title>
+  </head>
+  <body>
+	  <h1>Hey you typed ${link}</h1>
+  </body>
+  </html>`;
+  }
 
 /**
  * @param {vscode.ExtensionContext} context

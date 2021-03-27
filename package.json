@@ -11,7 +11,8 @@
 	],
 	"activationEvents": [
 		"onCommand:vscopper.helloWorld",
-		"onCommand:vscopper.codeforcesContest"
+		"onCommand:vscopper.codeforcesContest",
+		"onCommand:vscopper.showWebView"
 	],
 	"main": "./extension.js",
 	"contributes": {
@@ -23,6 +24,10 @@
 			{
 				"command": "vscopper.codeforcesContest",
 				"title": "Codeforces Contest"
+			},
+			{
+				"command": "vscopper.showWebView",
+				"title": "Show Webview"
 			}
 		]
 	},
