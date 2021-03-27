@@ -24,10 +24,6 @@
 			{
 				"command": "vscopper.codeforcesContest",
 				"title": "Codeforces Contest"
-			},
-			{
-				"command": "vscopper.showWebView",
-				"title": "Show Webview"
 			}
 		]
 	},
