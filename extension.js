@@ -10,13 +10,6 @@ function registerCommands(context){
 	
 	let codeforcesCnt = vscode.commands.registerCommand(
 		'vscopper.codeforcesContest', async function(){
-			let prms = await vscode.window.showInputBox({placeHolder: 'Enter contest URL'});
-			vscode.window.showInformationMessage(prms+ " is the url supplied");
-		}
-	);
-
-	let showWebView = vscode.commands.registerCommand(
-		'vscopper.showWebView', async function(){
 			let link = await vscode.window.showInputBox({placeHolder: 'Enter URL'});
 
 			const panel = vscode.window.createWebviewPanel(
@@ -31,7 +24,6 @@ function registerCommands(context){
 		}
 	);
 
-	context.subscriptions.push(showWebView);
 	context.subscriptions.push(helloworld);
 	context.subscriptions.push(codeforcesCnt);
 }
