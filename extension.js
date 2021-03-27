@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const problem = require('./webview/problem');
 
 function registerCommands(context){
 	let helloworld = vscode.commands.registerCommand(
@@ -18,27 +19,14 @@ function registerCommands(context){
 				{}
 			);
 
-			panel.webview.html = getWebViewContent(link);
+			panel.webview.html = problem.getWebViewContent(link);
+		
 		}
 	);
 
 	context.subscriptions.push(helloworld);
 	context.subscriptions.push(codeforcesCnt);
 }
-
-function getWebViewContent(link) {
-	return `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-	  <meta charset="UTF-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <title>heres the webview</title>
-  </head>
-  <body>
-	  <h1>Hey you typed ${link}</h1>
-  </body>
-  </html>`;
-  }
 
 /**
  * @param {vscode.ExtensionContext} context
