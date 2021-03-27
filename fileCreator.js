@@ -1,5 +1,6 @@
-const axios = require('axios');
+const rp = require('request-promise');
 const cheerio = require('cheerio');
+const TurndownService = require('turndown');
 const vscode = require('vscode');
 var fs = require('fs');
 
@@ -8,6 +9,17 @@ let getTestCaseFromProblemHtml = (dir, html) => {
   fs.copyFileSync(`${dir}/../template.cpp`, `${dir}/sol.cpp`);
   data = [];
   const $ = cheerio.load(html);
+  const turndownService = new TurndownService();
+  let markdown = turndownService.turndown($('.problem-statement').html());
+  markdown =markdown.split("$$$").join("$");
+  const double = String.raw`\\`;
+  markdown = markdown.split(String.raw`\\`).join(`\\`);
+  fs.writeFile(`${dir}/problemStatement.md`,markdown,function(err){
+    if(err){
+        console.log(err);
+    }
+    console.log(`The file ${dir}/problemStatement.md was saved!`);
+  });
   $('div.input pre').each((i, elem) => {
     data[i] = {
       ...data[i],
@@ -45,9 +57,9 @@ function getTestCaseFromProblemUrl(url) {
       fs.mkdirSync(dir);
   }
 
-  axios.get(url)
-    .then(response => {
-      getTestCaseFromProblemHtml(dir, response.data);
+  rp(url)
+    .then(function(html){
+      getTestCaseFromProblemHtml(dir, html);
     }
     )
     .catch(err => console.log(err));
@@ -65,9 +77,9 @@ let getTotalProblemsFromContestHtml = (html) => {
 }
 
 let runFileCreator = (url) =>{
-    axios.get(url)
-        .then(response => {
-        getTotalProblemsFromContestHtml(response.data);
+    rp(url)
+        .then(function(html){
+        getTotalProblemsFromContestHtml(html);
         });
     console.log("Successful");
 }
