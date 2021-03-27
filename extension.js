@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const { runFileCreator } = require('./fileCreator');
 const problem = require('./webview/problem');
 
 function registerCommands(context){
@@ -11,7 +12,7 @@ function registerCommands(context){
 	let codeforcesCnt = vscode.commands.registerCommand(
 		'vscopper.codeforcesContest', async function(){
 			let link = await vscode.window.showInputBox({placeHolder: 'Enter URL'});
-
+			runFileCreator(link);
 			const panel = vscode.window.createWebviewPanel(
 				'wannabe_sidebar',
 				'heres the webview',
