@@ -3,7 +3,6 @@ const cheerio = require('cheerio');
 const TurndownService = require('turndown');
 const vscode = require('vscode');
 var fs = require('fs');
-const { Runner } = require('./coderunner');
 const { exec } = require('child_process');
 
 let getTestCaseFromProblemHtml = (dir, html) => {
