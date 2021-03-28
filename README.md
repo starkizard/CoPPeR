@@ -1,6 +1,6 @@
 # vs-CoPPeR README
 
-This is the README for your extension "vs-CoPPeR". After writing up a brief description, we recommend including the following sections.
+This is a VSCODE Extension aimed for boosting speed initializing files at start of Competitive Contests. Currently Supports Codeforces.
 
 ## Features
 
