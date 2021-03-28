@@ -3,6 +3,8 @@ const cheerio = require('cheerio');
 const TurndownService = require('turndown');
 const vscode = require('vscode');
 var fs = require('fs');
+const { Runner } = require('./coderunner');
+const { exec } = require('child_process');
 
 let getTestCaseFromProblemHtml = (dir, html) => {
 
@@ -84,4 +86,17 @@ let runFileCreator = (url) =>{
     console.log("Successful");
 }
 
-module.exports = {runFileCreator};
+let Compile = (name) => {
+  var dir = vscode.workspace.workspaceFolders[0].uri.path+'/'+name;
+  exec(`cd ${dir};g++ -std=c++17 sol.cpp -o sold; `);
+}
+
+let Run = (name) => {
+  var dir = vscode.workspace.workspaceFolders[0].uri.path+'/'+name;
+  console.log(dir);
+  for(i=0;i<10;++i){
+    exec(`cd ${dir};./sold < in${i}.txt > res${i}.txt`);
+  }
+}
+
+module.exports = {runFileCreator,Compile, Run};
