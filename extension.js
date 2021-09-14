@@ -1,4 +1,5 @@
 const vscode = require('vscode');
+const { runFileCreator, Compile, Run  } = require('./fileCreator');
 
 function registerCommands(context){
 	let helloworld = vscode.commands.registerCommand(
@@ -10,35 +11,27 @@ function registerCommands(context){
 	let codeforcesCnt = vscode.commands.registerCommand(
 		'vscopper.codeforcesContest', async function(){
 			let link = await vscode.window.showInputBox({placeHolder: 'Enter URL'});
-
-			const panel = vscode.window.createWebviewPanel(
-				'wannabe_sidebar',
-				'heres the webview',
-				vscode.ViewColumn.One,
-				{}
-			);
-
-			panel.webview.html = getWebViewContent(link);
+			runFileCreator(link);
 		}
 	);
+	let buildCode = vscode.commands.registerCommand(
+		'vscopper.buildCode', async function(){
+			let name = await vscode.window.showInputBox({placeHolder: "Enter Problem ID (A/B/C..)"});
+			Compile(name);
+		}
+	);
+	let runCode = vscode.commands.registerCommand(
+		'vscopper.runCode', async function(){
+			let name = await vscode.window.showInputBox({placeHolder: "Enter Problem ID (A/B/C..)"});
+			Run(name);
+		}
+	)
 
 	context.subscriptions.push(helloworld);
 	context.subscriptions.push(codeforcesCnt);
+	context.subscriptions.push(buildCode);
+	context.subscriptions.push(runCode);
 }
-
-function getWebViewContent(link) {
-	return `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-	  <meta charset="UTF-8">
-	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	  <title>heres the webview</title>
-  </head>
-  <body>
-	  <h1>Hey you typed ${link}</h1>
-  </body>
-  </html>`;
-  }
 
 /**
  * @param {vscode.ExtensionContext} context
