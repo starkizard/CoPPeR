@@ -5,6 +5,15 @@ const vscode = require('vscode');
 var fs = require('fs');
 const { exec } = require('child_process');
 
+function resolveAfter2Seconds(x) {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve(x);
+    }, 2000);
+  });
+}
+
+
 let getTestCaseFromProblemHtml = (dir, html) => {
 
   fs.copyFileSync(`${dir}/../template.cpp`, `${dir}/sol.cpp`);
@@ -85,17 +94,21 @@ let runFileCreator = (url) =>{
     console.log("Successful");
 }
 
-let Compile = (name) => {
-  var dir = vscode.workspace.workspaceFolders[0].uri.path+'/'+name;
-  exec(`cd ${dir};g++ -std=c++17 sol.cpp -o sold; `);
-}
+// let Compile = (name) => {
+//   var dir = vscode.workspace.workspaceFolders[0].uri.path+'/'+name;
+//   exec(`cd ${dir};g++ -std=c++17 sol.cpp -o sold;  `);
+// }
 
-let Run = (name) => {
+ async function CompileAndRun(name){
   var dir = vscode.workspace.workspaceFolders[0].uri.path+'/'+name;
   console.log(dir);
+  exec(`cd ${dir};g++ -std=c++17 sol.cpp -o sold;`);
+  var x = await resolveAfter2Seconds(10);
+  console.log(x); // 10
+  console.log("Built")
   for(i=0;i<10;++i){
     exec(`cd ${dir};./sold < in${i}.txt > res${i}.txt`);
   }
 }
 
-module.exports = {runFileCreator,Compile, Run};
+module.exports = {runFileCreator,CompileAndRun};
