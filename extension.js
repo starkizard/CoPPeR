@@ -1,5 +1,5 @@
 const vscode = require('vscode');
-const { runFileCreator, Compile, Run  } = require('./fileCreator');
+const { runFileCreator, CompileAndRun  } = require('./fileCreator');
 
 function registerCommands(context){
 	let helloworld = vscode.commands.registerCommand(
@@ -14,22 +14,22 @@ function registerCommands(context){
 			runFileCreator(link);
 		}
 	);
-	let buildCode = vscode.commands.registerCommand(
-		'vscopper.buildCode', async function(){
-			let name = await vscode.window.showInputBox({placeHolder: "Enter Problem ID (A/B/C..)"});
-			Compile(name);
-		}
-	);
+	// let buildCode = vscode.commands.registerCommand(
+	// 	'vscopper.buildCode', async function(){
+	// 		let name = await vscode.window.showInputBox({placeHolder: "Enter Problem ID (A/B/C..)"});
+	// 		Compile(name);
+	// 	}
+	// );
 	let runCode = vscode.commands.registerCommand(
 		'vscopper.runCode', async function(){
 			let name = await vscode.window.showInputBox({placeHolder: "Enter Problem ID (A/B/C..)"});
-			Run(name);
+			CompileAndRun(name);
 		}
 	)
 
 	context.subscriptions.push(helloworld);
 	context.subscriptions.push(codeforcesCnt);
-	context.subscriptions.push(buildCode);
+	// context.subscriptions.push(buildCode);
 	context.subscriptions.push(runCode);
 }
 
